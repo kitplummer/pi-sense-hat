@@ -1,4 +1,4 @@
-import SenseHat from './sense-hat'
+import { SenseHat } from './sense-hat'
 
 export{
     SenseHat

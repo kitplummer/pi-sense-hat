@@ -1,54 +1,62 @@
-build_image:
-  # image: docker:git
-  # We've built our own base image which includes docker-compose, node and npm
-  image: flowmarine/docker-compose-npm:dev
-  cache:  # see https://docs.gitlab.com/ee/ci/caching/
-    key: ${CI_COMMIT_REF_SLUG} 
-    paths:
-    - node_modules/
-  services:
-  - docker:dind
-  script:
-  # Build prerequisites - TODO, move into custom base image?
-  - apt-get update
-  - apt-get -y install jq
-  - npm install -g gulp
-
-  # Generate a .npmrc file configured for installing private modules:
-  # NPM_REGISTRY_URL: the full URL of your private registry
-  #                   defaults to registry.npmjs.org.
-  # NPM_TOKEN: secret token for installing private modules. This
-  #            this token can be found in your .npmrc, after logging in.
-  - echo //$NPM_REGISTRY_URL/:_authToken=$NPM_TOKEN > ~/.npmrc
-  # confirm the file generated okay - shouldn't leave this uncommented because it echoes the token to the log
-  # - cat  ~/.npmrc
-
-  # Install, build and test
+image: node:latest
+before_script:
   - npm install
-  - npm run build
-  - npm run test
-  
-  # Update the version in package.json
-  - gulp autoversion
-  - git init # Why is this necessary?
+cache:
+  paths:
+  - node_modules/
+stages:
+  - build
+  - test
+  - publish
+pipelines:
+  branches:
+    master:
+    - step:
+        image: atlassian/default-image:2 # This has a higher version of npm/node
+        caches:
+          - node
+        script:
+          # Build prerequisites - TODO, move into custom base image?
+          - apt-get update
+          - apt-get -y install jq
+          - npm install -g gulp
 
-  # SSH ACCESS
-  - git remote set-url origin git@bitbucket.org:flow-marine/$BITBUCKET_REPO_SLUG.git
-  - ssh -T git@bitbucket.org
+          # Generate a .npmrc file configured for installing private modules:
+          # NPM_REGISTRY_URL: the full URL of your private registry
+          #                   defaults to registry.npmjs.org.
+          # NPM_TOKEN: secret token for installing private modules. This
+          #            this token can be found in your .npmrc, after logging in.
+          - echo //$NPM_REGISTRY_URL/:_authToken=$NPM_TOKEN > ~/.npmrc
+          # confirm the file generated okay
+          - cat  ~/.npmrc
 
-  # Push package.json and version tag
-  - git config --global user.email \"$BITBUCKET_CI_USER_EMAIL\"
-  - git config --global user.name \"$BITBUCKET_CI_USER_NAME\"
-  - git add package.json
-  - git commit -m "Bitbucket automatically updated version [skip CI]" # [SKIP_CI] stops infinite recursion of this script!
-  - git push
-  - declare -x PACKAGE_VERSION=$(jq -r '.version' package.json)        
-  - echo $PACKAGE_VERSION
-  - git tag $PACKAGE_VERSION
-  - git remote -v
-  - git push origin --tags
+          # Install, build and test
+          - npm install
+          - cd src
+          - npm install
+          - cd ..
+          - npm run build
+          - npm run test
+          
+          # Update the version in package.json
+          - gulp autoversion
+          - git init # Why is this necessary?
 
-  # Publish the updated package
-  - npm publish  
-  only:
-    - master
+          # SSH ACCESS
+          - git remote set-url origin git@bitbucket.org:flow-marine/$BITBUCKET_REPO_SLUG.git
+          - ssh -T git@bitbucket.org
+
+          # Push package.json and version tag
+          - git config --global user.email \"$BITBUCKET_CI_USER_EMAIL\"
+          - git config --global user.name \"$BITBUCKET_CI_USER_NAME\"
+          - git add package.json
+          - git commit -m "Gitlab automatically updated version [skip CI]" # [SKIP_CI] stops infinite recursion of this script!
+          - git push
+          - declare -x PACKAGE_VERSION=$(jq -r '.version' package.json)        
+          - echo $PACKAGE_VERSION
+          - git tag $PACKAGE_VERSION
+          - git remote -v
+          - git push origin --tags
+
+          # Publish the updated package
+          - npm publish

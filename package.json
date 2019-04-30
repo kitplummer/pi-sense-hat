@@ -8,7 +8,9 @@
   "description": "A thin wrapper around the python sense-hat library",
   "files": [
     "examples",
-    "dist"
+    "dist",
+    "scripts",
+    "sensehat.py"
   ],
   "readme": "README.md",
   "main": "dist/index.js",

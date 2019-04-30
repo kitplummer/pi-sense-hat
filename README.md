@@ -89,7 +89,7 @@ To set a 3-pixel wide column to purple: `4-6,*,purple`
 
 #### Rotate the screen
 
-Format: `R<angle>`
+rotate(angle:0|90|180|270)
 
 `angle` must be 0, 90, 180 or 270.
 

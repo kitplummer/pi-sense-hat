@@ -42,13 +42,11 @@ pipelines:
           - gulp autoversion
           - git init # Why is this necessary?
 
-          # SSH ACCESS
-          - git remote set-url origin git@bitbucket.org:flow-marine/$BITBUCKET_REPO_SLUG.git
-          - ssh -T git@bitbucket.org
+          - git remote set-url origin https://sirockin:${GITLAB_CI_PUSH}@gitlab.com/flow-systems/npm-packages/pi-sense-hat.git
+          - git config --global user.email 'info@flow-systems.com'
+          - git config --global user.name 'Gitlab CI Runner'          
 
           # Push package.json and version tag
-          - git config --global user.email \"$BITBUCKET_CI_USER_EMAIL\"
-          - git config --global user.name \"$BITBUCKET_CI_USER_NAME\"
           - git add package.json
           - git commit -m "Gitlab automatically updated version [skip CI]" # [SKIP_CI] stops infinite recursion of this script!
           - git push

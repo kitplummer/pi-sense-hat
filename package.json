@@ -1,8 +1,8 @@
 {
   "name": "pi-sense-hat",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": {
-    "type":"git",
+    "type": "git",
     "url": "https://gitlab.com/flow-systems/npm-packages/pi-sense-hat"
   },
   "description": "A thin wrapper around the python sense-hat library",

@@ -21,7 +21,12 @@ const KEY_MAP = {
     "E":"ENTER"
 }
 
-export default class SenseHat extends EventEmitter
+export function create():SenseHat
+{
+    return new SenseHat();
+}
+
+export class SenseHat extends EventEmitter
 {
     static instances:Array<SenseHat>=[];
 
@@ -32,7 +37,7 @@ export default class SenseHat extends EventEmitter
     private static envUsers = 0;
     private static reconnectTimer = null;
 
-    constructor()
+    public constructor()
     {
         super();
         this.open();

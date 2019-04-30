@@ -14,7 +14,7 @@ build_image:
     - apt-get -y install jq
     - npm install -g gulp
 
-    # Generate a .npmrc file configured for installing private modules:
+    # Generate a .npmrc file configured for installing private modules
     # NPM_REGISTRY_URL: the full URL of your private registry
     #                   defaults to registry.npmjs.org.
     # NPM_TOKEN: secret token for installing private modules. This
@@ -32,19 +32,19 @@ build_image:
     - gulp autoversion
     - git init # Why is this necessary?
 
-    - git remote set-url origin https://sirockin:${GITLAB_CI_PUSH}@gitlab.com/flow-systems/npm-packages/pi-sense-hat.git
+    - git remote set-url origin https://sirockin:${GITLAB_CI_PUSH}@gitlab.com/flow-systems/npm-packages/$BITBUCKET_REPO_SLUG.git
     - git config --global user.email 'info@flow-systems.com'
     - git config --global user.name 'Gitlab CI Runner'          
 
     # Push package.json and version tag
     - git add package.json
     - git commit -m "Gitlab automatically updated version [skip CI]" # [skip CI] stops infinite recursion of this script!
-    - git push
+    - git push origin HEAD:master
     - declare -x PACKAGE_VERSION=$(jq -r '.version' package.json)        
     - echo $PACKAGE_VERSION
     - git tag $PACKAGE_VERSION
     - git remote -v
-    - git push origin --tags
+    - git push origin --tags HEAD:master
 
     # Publish the updated package
     - npm publish  

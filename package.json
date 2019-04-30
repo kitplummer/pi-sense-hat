@@ -16,7 +16,7 @@
     "test": "mocha --reporter spec --compilers ts:ts-node/register ./test/**/*.test.ts",
     "mochaver": "mocha -V",
     "build": "tsc",
-    "postinstall": "bash ./scripts/checklib.sh"
+    "_postinstall": "bash ./scripts/checklib.sh"
   },
   "keywords": [
     "raspberry",

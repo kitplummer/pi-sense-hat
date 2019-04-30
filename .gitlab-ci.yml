@@ -25,9 +25,6 @@ build_image:
 
     # Install, build and test
     - npm install
-    - cd src
-    - npm install
-    - cd ..
     - npm run build
     - npm run test
     

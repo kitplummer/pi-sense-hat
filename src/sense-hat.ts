@@ -2,10 +2,11 @@ import { EventEmitter } from 'events';
 import * as fs from 'fs';
 import * as child_process from 'child_process';
 import * as colours from './colours';
+import * as path from 'path';
 
 const spawn=child_process.spawn;
 
-const hatCommand = __dirname+'/sensehat';
+const hatCommand = path.join( __dirname, '..', 'sensehat.py');
 // Xaccel.x,y,z,gyro.x,y,z,orientation.roll,pitch,yaw,compass
 const HF_RE = /^X(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+)$/;
 //  Ytemperature,humidity,pressure
@@ -184,7 +185,7 @@ export default class SenseHat extends EventEmitter
         }
     
         if ( !(1 & parseInt((fs.statSync(hatCommand).mode & parseInt ("777", 8)).toString(8)[0]) )) {
-            throw new Error( "Error: node-red:rpi-gpio.errors.mustbeexecutable");
+            throw new Error( "Sense hat python file must be executable");
         }    
     }
 }

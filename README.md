@@ -1,6 +1,6 @@
 # pi-sense-hat
 
-An event-based wrapper around the python sense-hat library. 
+An event-based wrapper around the python sense-hat library, based on the [node-red-node-pi-sense-hat](https://www.npmjs.com/package/node-red-node-pi-sense-hat) library.
 
 ## Usage
 
@@ -10,7 +10,7 @@ See examples in ./examples
 ### Events
 
 A SenseHat intance generates readings from the various sensors on the Sense HAT, grouped into
-three differnt event types:
+three different event types:
 * `motion`
 * `environment`
 * `joystick`
@@ -55,7 +55,17 @@ These methods send commands to the 8x8 LED display on the Sense HAT.
 
 #### Set the colour of individual pixels
 
-Format: `<x>,<y>,<colour>`
+`setPixelColour(colourSpec`
+`setPixelColour{[colourSpec1, colourSpec2...]}`
+
+Where colourSpec is of the form:
+```typescript
+{
+  x:number|string,
+  y:number|string,
+  colour:string
+}
+```
 
 `x` and `y` must either be a value from 0 to 7, a `*` to indicate the entire row
 or column, or a range such as `3-6`.
@@ -68,7 +78,7 @@ or column, or a range such as `3-6`.
   - an RGB triple - `190,255,0`
   - or simply `off`
 
-To set the entire screen to red: `*,*,red`
+To set the entire screen to red: `setPixelColour({x:*,y:*,red})`
 
 To set the four corners of the display to red, green (#00ff00), yellow and blue (0,0,255):
 

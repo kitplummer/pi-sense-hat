@@ -1,5 +1,5 @@
-import { SenseHat } from './sense-hat'
+import { SenseHat, create } from './sense-hat'
 
 export{
-    SenseHat
+    SenseHat, create
 }

@@ -32,7 +32,7 @@ build_image:
     - gulp autoversion
     - git init # Why is this necessary?
 
-    - git remote set-url origin https://sirockin:${GITLAB_CI_PUSH}@gitlab.com/flow-systems/npm-packages/$BITBUCKET_REPO_SLUG.git
+    - git remote set-url origin https://sirockin:${GITLAB_CI_PUSH}@CI_REPOSITORY_URL
     - git config --global user.email 'info@flow-systems.com'
     - git config --global user.name 'Gitlab CI Runner'          
 

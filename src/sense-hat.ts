@@ -45,20 +45,29 @@ export class SenseHat extends EventEmitter
 
     public setPixelColour(...args)
     {
+        let command = SenseHat.createCmdSetPixelColour(args);
+        if( command )
+        {
+            SenseHat.hat.send(command);
+        }
+    }
+
+    static createCmdSetPixelColour(args:any)
+    {
         let expanded = [];
         let i=0;
         let j=0;
-        while (i<arguments.length) {
-            let x = arguments[i++];
-            let y = arguments[i++];
-            let col = arguments[i++];
+        while (i<args.length) {
+            let x = args[i++];
+            let y = args[i++];
+            let col = args[i++];
             if (/#[a-f0-9]{3,6}|[a-z]/i.test(col)) {
                 col = getRGB(col);
                 if (col === null) {
                     throw new Error("Invalid colour");
                 }
             } else {
-                col += ","+arguments[i++]+","+arguments[i++];
+                col += ","+args[i++]+","+args[i++];
             }
             if (x === '*') {
                 x = "0-7";
@@ -68,7 +77,7 @@ export class SenseHat extends EventEmitter
             }
             let x0,x1;
             let y0,y1;
-            if (x.indexOf("-") === -1) {
+            if (typeof(x) !== 'string' || x.indexOf("-") === -1) {
                 x0 = x1 = parseInt(x);
             } else {
                 var px = x.split("-");
@@ -80,7 +89,7 @@ export class SenseHat extends EventEmitter
                     x0 = j;
                 }
             }
-            if (y.indexOf("-") === -1) {
+            if (typeof(y) !== 'string' || y.indexOf("-") === -1) {
                 y0 = y1 = parseInt(y);
             } else {
                 var py = y.split("-");
@@ -114,20 +123,47 @@ export class SenseHat extends EventEmitter
             }
             if (rules.length > 0) {
                 let command = "P"+rules.join(",");
-                SenseHat.hat.send(command);
+                return command;
             }
         }
         
-
+        return "";
     }
 
-    public set(angle:number)
+    public rotate(angle:number)
+    {
+        SenseHat.hat.send(SenseHat.createCmdRotate(angle));
+    }
+
+    static createCmdRotate(angle:number):string
     {
         if( angle !== 0 && angle !== 90 && angle !==180 && angle !== 270 )
         {
             throw new Error("Angle must be 0, 90, 180 or 270")
         }
+        return "R"+angle;
     }
+
+    public flip(horizontal:boolean=false)
+    {
+        SenseHat.hat.send(SenseHat.createCmdFlip(horizontal));
+    }
+
+    static createCmdFlip(horizontal:boolean=false)
+    {
+        return "F" + (horizontal ? "H" : "V");
+    }
+
+    public brightness(high:boolean=false)
+    {
+        SenseHat.hat.send(SenseHat.createCmdBrightness(high));
+    }
+
+    static createCmdBrightness(high:boolean=false)
+    {
+        return "D" + (high ? "1" : "0");
+    }
+
 
     public displayMessage(text:string, colour:string="white", background:string="off", speed:number=3)
     {

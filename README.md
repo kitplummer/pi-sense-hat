@@ -69,38 +69,58 @@ or column, or a range such as `3-6`.
   - an RGB triple - `190,255,0`
   - or simply `off`
 
-To set the entire screen to red: `setPixelColour({x:*,y:*,red})`
+To set the entire screen to red: 
+
+```javascript
+let senseHat = require('../dist/sense-hat').create();
+senseHat.setPixelColour('*','*','red')`
+```
 
 To set the four corners of the display to red, green (#00ff00), yellow and blue (0,0,255):
 
-`0,0,red,0,7,#00ff00,7,7,yellow,7,0,0,0,255`
+```javascript
+let senseHat = require('../dist/sense-hat').create();
+senseHat.setPixelColour(0,0,'red',0,7,'#00ff00',7,7,'yellow',7,0,0,0,255)
+```
 
-To set a 3-pixel wide column to purple: `4-6,*,purple`
+To set a 3-pixel wide column to purple: 
+```javascript
+let senseHat = require('../dist/sense-hat').create();
+senseHat.setPixelColour('4-6','*','purple')
+```
 
 
 #### Rotate the screen
-
-Not yet implemented!!!
 
 rotate(angle:0|90|180|270)
 
 `angle` must be 0, 90, 180 or 270.
 
-Example: `rotate(180);`
+Example:
+```javascript
+let senseHat = require('../dist/sense-hat').create();
+senseHat.rotate(180);
+```
 
 #### Flip the screen
 
-Not yet implemented!!!
 
-`flip(axis:'H'|'V')`
+`flip(horizontal=true)`
 
 `To flip on the horizontal or vertical axis respectively.
 
-Example: `flip('V');`
+Exmaple:
+
+```javascript
+let senseHat = require('../dist/sense-hat').create();
+senseHat.flip(true); 
+```
 
 #### Display a message
 
-`displayMessage(msg:string, colour:string="white", background:string="off", speed:number=3)`
+```javascript
+displayMessage(text:string, colour:string="white", background:string="off", speed:number=3)`
+```
 
 If the text is a single character, it will be displayed without scrolling. To
 scroll a single character, append a blank space after it - `"A "`.
@@ -111,27 +131,35 @@ The following message properties can be used to customise the appearance:
   - `background` - the colour of the background, default: `off`
   - `speed` - the scroll speed. A value in the range 1 (slower) to 5 (faster), default: `3`
 
+Example:
+```javascript
+let senseHat = require('../dist/sense-hat').create();
+senseHat.displayMessage("Hello world", "blue", "green", 4);
+```
+
 #### Set the screen brightness
 
-Not yet implemented!!!
+`brightness(high=true)`
 
-Format: `D<level>`
+`To flip on the horizontal or vertical axis respectively.
 
-`level` must be 0 (low) or 1 (high).
+Exmaple:
 
-Example: `D1`
-
+```javascript
+let senseHat = require('../dist/sense-hat').create();
+senseHat.brightness(true); 
+```
 
 
 ## Credits
 
-The library was based on the [node-red-pi]() following code was derived from https://github.com/node-red/node-red-nodes/tree/master/hardware/sensehat under the terms of the Apache 2.0 license agreement:
+The library was based on the [node-red-pi](https://github.com/node-red/node-red-nodes/tree/master/hardware/sensehat) library under the terms of the Apache 2.0 license agreement:
 
 Directly copied:
 * sensehat.py
 * scripts/checklib.sh
-* colours.js
 
 Adapted:
 * readme.md
 * src/sense-hat.ts (adpated from sensehat.js)
+* colours.ts (adapted from colours.js)

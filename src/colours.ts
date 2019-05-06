@@ -1,6 +1,6 @@
 // This file copied in entirety from https://github.com/node-red/node-red-nodes/tree/master/hardware/sensehat
 
-var colours = {
+const colours = {
     'aqua':'#00FFFF',
     'aliceblue':'#F0F8FF',
     'antiquewhite':'#FAEBD7',
@@ -156,7 +156,7 @@ var colours = {
 var hexColour = /^#([0-9A-F][0-9A-F][0-9A-F]){1,2}$/i;
 var r, g, b;
 
-module.exports.getRGB = function(col,rgb) {
+export function getRGB(col,rgb=null) {
     if (!col) {
         return null;
     }
@@ -188,7 +188,7 @@ module.exports.getRGB = function(col,rgb) {
     }
 }
 
-module.exports.getHex = function(col) {
+export function getHex(col) {
     col = col.toString().toLowerCase();
     if (col in colours) {
         return colours[col];
@@ -196,7 +196,7 @@ module.exports.getHex = function(col) {
     else { return null; }
 }
 
-module.exports.HexRGB = function(hex) {
+export function HexRGB(hex) {
     try {
         r = parseInt(hex.slice(1,3),16);
         g = parseInt(hex.slice(3,5),16);

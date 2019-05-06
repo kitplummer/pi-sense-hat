@@ -10,4 +10,9 @@ describe("SenseHat", ()=>{
             // new SenseHat();
         })
     });
+    describe("createCmdDisplayMessage", ()=>{
+        it("should return a comma separated string command prefixed by T, with appropriate values", ()=>{
+            expect(SenseHat.createCmdDisplayMessage("Hello World!", "white", "off", 4 )).to.equal("T255,255,255,0,0,0,0.07:Hello World!");
+        });
+    });
 });

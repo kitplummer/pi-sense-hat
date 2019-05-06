@@ -6,7 +6,7 @@
     "outDir": "dist"
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts", "src/colours.ts"
   ],
   "exclude": [
     "node_modules"

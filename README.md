@@ -55,17 +55,8 @@ These methods send commands to the 8x8 LED display on the Sense HAT.
 
 #### Set the colour of individual pixels
 
-`setPixelColour(colourSpec`
-`setPixelColour{[colourSpec1, colourSpec2...]}`
+`setPixelColour(x, y, colour, x2, y2, colour...)`
 
-Where colourSpec is of the form:
-```typescript
-{
-  x:number|string,
-  y:number|string,
-  colour:string
-}
-```
 
 `x` and `y` must either be a value from 0 to 7, a `*` to indicate the entire row
 or column, or a range such as `3-6`.
@@ -89,35 +80,40 @@ To set a 3-pixel wide column to purple: `4-6,*,purple`
 
 #### Rotate the screen
 
+Not yet implemented!!!
+
 rotate(angle:0|90|180|270)
 
 `angle` must be 0, 90, 180 or 270.
 
-Example: `R180`
+Example: `rotate(180);`
 
 #### Flip the screen
 
-Format: `F<axis>`
+Not yet implemented!!!
 
-`axis` must be either `H` or `V` to flip on the horizontal or vertical axis respectively.
+`flip(axis:'H'|'V')`
 
-Example: `FV`
+`To flip on the horizontal or vertical axis respectively.
 
-#### Scroll a message
+Example: `flip('V');`
 
-If `msg.payload` is not recognised as any of the above commands, it is treated
-as a text message to be scrolled across the screen.
+#### Display a message
+
+`displayMessage(msg:string, colour:string="white", background:string="off", speed:number=3)`
 
 If the text is a single character, it will be displayed without scrolling. To
-scroll a single character, append a blank space after it - `"A "`.</p>
+scroll a single character, append a blank space after it - `"A "`.
 
 The following message properties can be used to customise the appearance:
-
-  - `msg.color` - the colour of the text, default: `white`
-  - `msg.background` - the colour of the background, default: `off`
-  - `msg.speed` - the scroll speed. A value in the range 1 (slower) to 5 (faster), default: `3`
+  - `text` - the text to be displayed. If the text is a single character, it will be displayed without scrolling. To scroll a single character, append a blank space after it - `"A "`.
+  - `colour` - the colour of the text, default: `white`
+  - `background` - the colour of the background, default: `off`
+  - `speed` - the scroll speed. A value in the range 1 (slower) to 5 (faster), default: `3`
 
 #### Set the screen brightness
+
+Not yet implemented!!!
 
 Format: `D<level>`
 
@@ -129,7 +125,7 @@ Example: `D1`
 
 ## Credits
 
-The following code was derived from https://github.com/node-red/node-red-nodes/tree/master/hardware/sensehat under the terms of the Apache 2.0 license agreement:
+The library was based on the [node-red-pi]() following code was derived from https://github.com/node-red/node-red-nodes/tree/master/hardware/sensehat under the terms of the Apache 2.0 license agreement:
 
 Directly copied:
 * sensehat.py

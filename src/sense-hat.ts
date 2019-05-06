@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import * as fs from 'fs';
 import * as child_process from 'child_process';
-import * as colours from './colours';
+import {getHex, getRGB, HexRGB} from './colours';
 import * as path from 'path';
 
 const spawn=child_process.spawn;
@@ -42,6 +42,124 @@ export class SenseHat extends EventEmitter
         super();
         this.open();
     }
+
+    public setPixelColour(...args)
+    {
+        let expanded = [];
+        let i=0;
+        let j=0;
+        while (i<arguments.length) {
+            let x = arguments[i++];
+            let y = arguments[i++];
+            let col = arguments[i++];
+            if (/#[a-f0-9]{3,6}|[a-z]/i.test(col)) {
+                col = getRGB(col);
+                if (col === null) {
+                    throw new Error("Invalid colour");
+                }
+            } else {
+                col += ","+arguments[i++]+","+arguments[i++];
+            }
+            if (x === '*') {
+                x = "0-7";
+            }
+            if (y === '*') {
+                y = "0-7";
+            }
+            let x0,x1;
+            let y0,y1;
+            if (x.indexOf("-") === -1) {
+                x0 = x1 = parseInt(x);
+            } else {
+                var px = x.split("-");
+                x0 = parseInt(px[0]);
+                x1 = parseInt(px[1]);
+                if (x1<x0) {
+                    j = x1;
+                    x1 = x0;
+                    x0 = j;
+                }
+            }
+            if (y.indexOf("-") === -1) {
+                y0 = y1 = parseInt(y);
+            } else {
+                var py = y.split("-");
+                y0 = parseInt(py[0]);
+                y1 = parseInt(py[1]);
+                if (y1<y0) {
+                    j = y1;
+                    y1 = y0;
+                    y0 = j;
+                }
+            }
+            x = x0;
+            while (x<=x1) {
+                y = y0;
+                while (y<=y1) {
+                    expanded.push([x,y,col]);
+                    y++;
+                }
+                x++;
+            }
+        }
+        if (expanded.length > 0) {
+            var pixels = {};
+            var rules = [];
+            for (i=expanded.length-1; i>=0; i--) {
+                var rule = expanded[i];
+                if (!pixels[rule[0]+","+rule[1]]) {
+                    rules.unshift(rule.join(","));
+                    pixels[rule[0]+","+rule[1]] = true;
+                }
+            }
+            if (rules.length > 0) {
+                let command = "P"+rules.join(",");
+                SenseHat.hat.send(command);
+            }
+        }
+        
+
+    }
+
+    public set(angle:number)
+    {
+        if( angle !== 0 && angle !== 90 && angle !==180 && angle !== 270 )
+        {
+            throw new Error("Angle must be 0, 90, 180 or 270")
+        }
+    }
+
+    public displayMessage(text:string, colour:string="white", background:string="off", speed:number=3)
+    {
+        SenseHat.hat.send(SenseHat.createCmdDisplayMessage(text,colour,background,speed));
+    }
+
+    static createCmdDisplayMessage(text:string, colour:string, background:string, speed:number)
+    {
+        let textCol = getRGB(colour)||"255,255,255";
+        let backCol = getRGB(background)||"0,0,0";
+        if( isNaN(speed))
+        {
+            speed = null;
+        }
+        let retval = "T";
+        // Are these if statements necessary?
+        if (textCol) {
+            retval += textCol;
+            if (backCol) {
+                retval += ","+backCol;
+            }
+        }
+
+        if (speed>=1 && speed <= 5) {
+            let s = 0.1 + (3-speed)*0.03;
+            retval = retval + ((retval.length === 1)?"":",") + s;
+        }
+        retval += ":" + text;
+        return retval;
+    }
+    
+    
 
     // It's not the end of the world if this isn't called
     public dispose()

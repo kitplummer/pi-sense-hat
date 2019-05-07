@@ -43,12 +43,19 @@ export class SenseHat extends EventEmitter
         this.open();
     }
 
+    private static send(command:string)
+    {
+        if (this.hat) {
+            this.hat.stdin.write(command+'\n');
+        }
+    }
+
     public setPixelColour(...args)
     {
         let command = SenseHat.createCmdSetPixelColour(args);
         if( command )
         {
-            SenseHat.hat.send(command);
+            SenseHat.send(command);
         }
     }
 
@@ -132,7 +139,7 @@ export class SenseHat extends EventEmitter
 
     public rotate(angle:number)
     {
-        SenseHat.hat.send(SenseHat.createCmdRotate(angle));
+        SenseHat.send(SenseHat.createCmdRotate(angle));
     }
 
     static createCmdRotate(angle:number):string
@@ -146,7 +153,7 @@ export class SenseHat extends EventEmitter
 
     public flip(horizontal:boolean=false)
     {
-        SenseHat.hat.send(SenseHat.createCmdFlip(horizontal));
+        SenseHat.send(SenseHat.createCmdFlip(horizontal));
     }
 
     static createCmdFlip(horizontal:boolean=false)
@@ -156,7 +163,7 @@ export class SenseHat extends EventEmitter
 
     public brightness(high:boolean=false)
     {
-        SenseHat.hat.send(SenseHat.createCmdBrightness(high));
+        SenseHat.send(SenseHat.createCmdBrightness(high));
     }
 
     static createCmdBrightness(high:boolean=false)
@@ -167,7 +174,7 @@ export class SenseHat extends EventEmitter
 
     public displayMessage(text:string, colour:string="white", background:string="off", speed:number=3)
     {
-        SenseHat.hat.send(SenseHat.createCmdDisplayMessage(text,colour,background,speed));
+        SenseHat.send(SenseHat.createCmdDisplayMessage(text,colour,background,speed));
     }
 
     static createCmdDisplayMessage(text:string, colour:string, background:string, speed:number)

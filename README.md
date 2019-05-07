@@ -9,7 +9,7 @@ See examples in ./examples
 
 ### Events
 
-A SenseHat intance generates readings from the various sensors on the Sense HAT, grouped into
+A SenseHat instance generates readings from the various sensors on the Sense HAT, grouped into
 three different event types:
 * `motion`
 * `environment`
@@ -73,7 +73,7 @@ To set the entire screen to red:
 
 ```javascript
 let senseHat = require('../dist/sense-hat').create();
-senseHat.setPixelColour('*','*','red')`
+senseHat.setPixelColour('*','*','red')
 ```
 
 To set the four corners of the display to red, green (#00ff00), yellow and blue (0,0,255):
@@ -107,9 +107,9 @@ senseHat.rotate(180);
 
 `flip(horizontal=true)`
 
-`To flip on the horizontal or vertical axis respectively.
+To flip on the horizontal or vertical axis respectively.
 
-Exmaple:
+Example:
 
 ```javascript
 let senseHat = require('../dist/sense-hat').create();
@@ -118,9 +118,7 @@ senseHat.flip(true);
 
 #### Display a message
 
-```javascript
-displayMessage(text:string, colour:string="white", background:string="off", speed:number=3)`
-```
+`displayMessage(text:string, colour:string="white", background:string="off", speed:number=3)`
 
 If the text is a single character, it will be displayed without scrolling. To
 scroll a single character, append a blank space after it - `"A "`.
@@ -143,7 +141,7 @@ senseHat.displayMessage("Hello world", "blue", "green", 4);
 
 `To flip on the horizontal or vertical axis respectively.
 
-Exmaple:
+Example:
 
 ```javascript
 let senseHat = require('../dist/sense-hat').create();

@@ -5,7 +5,7 @@ An event-based wrapper around the python sense-hat library, based on the [node-r
 ## Usage
 
 ### Examples
-See examples in ./examples
+Example code is provided in plain javascript and typescript, in the `./examples` folder.
 
 ### Events
 
@@ -103,7 +103,6 @@ senseHat.rotate(180);
 ```
 
 #### Flip the screen
-
 
 `flip(horizontal=true)`
 

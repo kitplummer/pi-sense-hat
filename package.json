@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://gitlab.com/flow-systems/npm-packages/pi-sense-hat"
   },
-  "description": "A thin wrapper around the python sense-hat library",
+  "description": "An event-based wrapper around the python sense-hat library, based on the node-red-node-pi-sense-hat library.",
   "files": [
     "examples",
     "dist",

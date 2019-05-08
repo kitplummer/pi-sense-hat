@@ -1,5 +1,5 @@
-import { SenseHat, create } from './sense-hat'
+import { SenseHat, create, MotionEvent, EnvironmentEvent, JoystickEvent } from './sense-hat'
 
 export{
-    SenseHat, create
+    SenseHat, create, MotionEvent, EnvironmentEvent, JoystickEvent
 }

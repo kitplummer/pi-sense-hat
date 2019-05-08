@@ -7,14 +7,14 @@
       {
         "type": "node",
         "request": "launch",
-        "name": "Launch example.js",
-        "program": "${workspaceFolder}/examples/example.js"
+        "name": "Launch example display-message.js",
+        "program": "${workspaceFolder}/examples/display-message.js"
       },
       {
-        "name": "Launch example.ts",
+        "name": "Launch example display-message.ts",
         "type": "node",
         "request": "launch",
-        "args": ["${workspaceFolder}/examples/example.ts"],
+        "args": ["${workspaceFolder}/examples/display-message.ts"],
         "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
         "sourceMaps": true,
         "outFiles": [ "${workspaceFolder}/dist/**/*.js" ],

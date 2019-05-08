@@ -67,8 +67,9 @@ last_lf_time = time.time()
 hf_interval = 0.09 # Approx 10/s
 lf_interval = 1
 
-hf_enabled = False
-lf_enabled = False
+# Passing commands via stdin doesn't seem to work properly so we'll just set true for now
+hf_enabled = True
+lf_enabled = True
 
 scroll = None
 
@@ -113,17 +114,17 @@ class ScrollThread(threading.Thread):
 def process_command(data):
   global hf_enabled, lf_enabled,scroll
 
-  if data[0] == "X":
-    if data[1] == '0':
-      hf_enabled = False
-    else:
-      hf_enabled = True
-  elif data[0] == "Y":
-    if data[1] == '0':
-      lf_enabled = False
-    else:
-      lf_enabled = True
-  elif data[0] == "D":
+  # if data[0] == "X":
+  #   if data[1] == '0':
+  #     hf_enabled = False
+  #   else:
+  #     hf_enabled = True
+  # elif data[0] == "Y":
+  #   if data[1] == '0':
+  #     lf_enabled = False
+  #   else:
+  #     lf_enabled = True
+  if data[0] == "D":
     if data[1] == '0':
       SH.low_light = True
     else:

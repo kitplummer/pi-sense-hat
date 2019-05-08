@@ -338,13 +338,22 @@ export class SenseHat extends EventEmitter
         this.hat.stderr.on('data', function (data) {
             // Any data on stderr means a bad thing has happened.
             // Best to kill it and let it reconnect.
-            console.error("err: "+data+" :");
-            this.hat.kill('SIGKILL');
+            console.error("pi-sense-hat error: data received on hat.stderr:"+data+"* end of error data*");
+            if( this.hat )
+            {
+                this.hat.kill('SIGKILL');
+            }
         });
-        this.hat.stderr.on('error', function(err) { });
-        this.hat.stdin.on('error', function(err) { });
+        this.hat.stderr.on('error', function(err) { 
+            console.error("pi-sense-hat error: error event received on hat.stderr:"+err+"* end of error data*");
+
+        });
+        this.hat.stdin.on('error', function(err) { 
+            console.error("pi-sense-hat error: error event received on hat.stdin:"+err+"* end of error data*");
+        });
 
         this.hat.on('close', function (code) {
+            console.log("pi-sense-hat: child process close event received with code:", code);
             this.hat = null;
             this.emit('close');
             console.log("sense hat closed");

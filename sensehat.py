@@ -199,12 +199,14 @@ def idle_work():
     accel = SH.get_accelerometer_raw()
 
     print("X%0.4f,%0.4f,%0.4f,%0.4f,%0.4f,%0.4f,%0.4f,%0.4f,%0.4f,%0.0f"%(accel['x'],accel['y'],accel['z'],gyro['x'],gyro['y'],gyro['z'],orientation['roll'],orientation['pitch'],orientation['yaw'],compass))
+    sys.stdout.flush()
     last_hf_time = now
   if lf_enabled and (now-last_lf_time > lf_interval):
     temperature = SH.get_temperature();
     humidity = SH.get_humidity();
     pressure = SH.get_pressure();
     print("Y%0.2f,%0.2f,%0.2f"%(temperature,humidity,pressure))
+    sys.stdout.flush()
     last_lf_time = now
 
 def process_joystick():
@@ -212,6 +214,7 @@ def process_joystick():
   (tv_sec, tv_usec, type, code, value) = struct.unpack(EVENT_FORMAT, event)
   if type == 0x01:
     print ("K%s%s"%(EVENT_NAMES[code],value))
+    sys.stdout.flush()
 
 def main_loop():
   # while still waiting for input on at least one file

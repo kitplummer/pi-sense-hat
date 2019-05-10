@@ -3,7 +3,7 @@
   "version": "1.0.13",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/flow-systems/npm-packages/pi-sense-hat"
+    "url": "https://gitlab.com/flow-systems/public/pi-sense-hat"
   },
   "description": "A thin wrapper around the python sense-hat library",
   "files": [

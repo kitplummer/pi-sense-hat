@@ -299,15 +299,15 @@ export class SenseHat extends EventEmitter
                 var line = lines[i];
                 msg = null;
                 if ((m = KEY_RE.exec(line)) !== null) {
-                    console.log("received joystick data");
+                    //console.log("received joystick data");
                     let joystick:JoystickEvent= {key: KEY_MAP[m[1]], state: Number(m[2])};
                     SenseHat.emit("joystick",joystick)
                 } else if ((m = LF_RE.exec(line)) !== null) {
-                    console.log("received joystick data");
+                    //console.log("received joystick data");
                     let environment:EnvironmentEvent = {temperature: Number(m[1]), humidity: Number(m[2]), pressure: Number(m[3])};
                     SenseHat.emit( "environment",environment);
                 } else if ((m = HF_RE.exec(line)) !== null) {
-                    console.log("received motion data");
+                    //console.log("received motion data");
                     // Xaccel.x,y,z,gyro.x,y,z,orientation.roll,pitch,yaw,compass
                     let motion:MotionEvent = {
                         acceleration: {
@@ -339,7 +339,7 @@ export class SenseHat extends EventEmitter
             // Any data on stderr means a bad thing has happened.
             // Best to kill it and let it reconnect.
             console.error("pi-sense-hat error: data received on hat.stderr:"+data+"* end of error data*");
-            if( this.hat )
+            if( this.hat && !data.includes("TCS34725"))
             {
                 this.hat.kill('SIGKILL');
             }
